@@ -3,10 +3,6 @@
 
 
 //PUNTO 1
-
-
-
-
 #include <stdio.h>
 
 int main() {
@@ -18,88 +14,48 @@ int main() {
     int internal_fragmentation = 0;
     int external_fragmentation = 0;
     
-    printf("Enter method (1 for MFT, 2 for MVT): ");
+    printf("Puedes dar el metodo de entrada (1 for MFT, 2 for MVT): ");
     scanf("%d", &method);
     
-    printf("Enter total memory: ");
+    printf("puedes decir el # de memoria total: ");
     scanf("%d", &total_memory);
     
     if (method == 1) {
-        printf("Enter block size: ");
+        printf("Ingrese el tamaño del bloque: ");
         scanf("%d", &block_size);
     }
     
-    printf("Enter number of processes: ");
+    printf("ingrese el numero total de procesos ");
     scanf("%d", &num_processes);
     
     // Allocate memory to processes
     for (int i = 0; i < num_processes; i++) {
         int process_size;
-        printf("Enter size of process %d: ", i);
+        printf("ingrese el tamaño del proceso %d: ", i);
         scanf("%d", &process_size);
         
         if (method == 1) { // MFT
             if (process_size <= block_size) {
-                printf("P%d -> %d is put in %d, %d fragmentation.\n", i, process_size, block_size, block_size - process_size);
+                printf("P%d -> %d se pone en: %d, %d fragmentacion.\n", i, process_size, block_size, block_size - process_size);
                 internal_fragmentation += block_size - process_size;
                 memory_left += block_size;
             } else {
-                printf("P%d -> %d Not allocated.\n", i, process_size);
+                printf("P%d -> %d no asignado.\n", i, process_size);
             }
         } else { // MVT
             if (process_size <= total_memory - memory_left) {
-                printf("P%d -> %d is put in Mem.\n", i, process_size);
+                printf("P%d -> %d se coloca en la memoria \n", i, process_size);
                 memory_left += process_size;
             } else {
-                printf("P%d -> %d Not allocated.\n", i, process_size);
+                printf("P%d -> %d no asignado.\n", i, process_size);
                 external_fragmentation += process_size;
             }
         }
     }
     
-    printf("Memory allocates: %d\n", memory_left);
-    printf("Internal fragmentation: %d\n", internal_fragmentation);
-    printf("External fragmentation: %d\n", external_fragmentation);
+    printf("memoria asignada: %d\n", memory_left);
+    printf("Fragmentacion interna: %d\n", internal_fragmentation);
+    printf("Fragmentacion externa: %d\n", external_fragmentation);
     
     return 0;
 }
-
-
-int main() {
-    int method;
-    int total_memory;
-    int num_processes;
-    int memory_left;
-    int internal_fragmentation = -1;
-    int external_fragmentation = 0;
-    
-    printf("Enter method (1 for MFT, 2 for MVT): ");
-    scanf("%d", &method);
-    
-    printf("Enter total memory: ");
-    scanf("%d", &total_memory);
-    
-    printf("Enter number of processes: ");
-    scanf("%d", &num_processes);
-    
-    // Allocate memory to processes
-    for (int i = 0; i < num_processes; i++) {
-        int process_size;
-        printf("Enter size of process %d: ", i);
-        scanf("%d", &process_size);
-        
-        if (process_size <= total_memory - memory_left) {
-            printf("P%d -> %d is put in Mem.\n", i, process_size);
-            memory_left += process_size;
-            if (internal_fragmentation == -1) {
-                internal_fragmentation = total_memory - memory_left;
-            } else {
-                internal_fragmentation = 0;
-            }
-        } else {
-            printf("P%d -> %d Not allocated.\n", i, process_size);
-            external_fragmentation += process_size;
-        }
-    }
-    
-    printf("Memory allocates: %d\n",
