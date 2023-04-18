@@ -6,56 +6,57 @@
 #include <stdio.h>
 
 int main() {
-    int method;
-    int total_memory;
-    int block_size;
-    int num_processes;
-    int memory_left;
-    int internal_fragmentation = 0;
-    int external_fragmentation = 0;
-    
+    // comenzamos declarando las variables que necesitamos en el programa
+    int Met;
+    int Tot_Men;
+    int Tam_bloq;
+    int Tot_proc;
+    int Mem;
+    int Int_frag = 0;
+    int Ext_frag = 0;
+    //pedimos por pantalla los metodos y datos que necesitamos para operar el programa.
     printf("Puedes dar el metodo de entrada (1 for MFT, 2 for MVT): ");
-    scanf("%d", &method);
+    scanf("%d", &Met);
     
     printf("puedes decir el # de memoria total: ");
-    scanf("%d", &total_memory);
+    scanf("%d", &Tot_Men);
     
-    if (method == 1) {
+    if (Met == 1) {
         printf("Ingrese el tamaño del bloque: ");
-        scanf("%d", &block_size);
+        scanf("%d", &Tam_bloq);
     }
     
     printf("ingrese el numero total de procesos ");
-    scanf("%d", &num_processes);
+    scanf("%d", &Tot_proc);
     
-    // Allocate memory to processes
-    for (int i = 0; i < num_processes; i++) {
-        int process_size;
+    // bucle que hace laasignacion de los procesos en memoria 
+    for (int i = 0; i < Tot_proc; i++) {
+        int Tot_proc;
         printf("ingrese el tamaño del proceso %d: ", i);
-        scanf("%d", &process_size);
+        scanf("%d", &Tot_proc);
         
-        if (method == 1) { // MFT
-            if (process_size <= block_size) {
-                printf("P%d -> %d se pone en: %d, %d fragmentacion.\n", i, process_size, block_size, block_size - process_size);
-                internal_fragmentation += block_size - process_size;
-                memory_left += block_size;
+        if (Met == 1) { // proceso MFT
+            if (Tot_proc <= Tam_bloq) {
+                printf("P%d -> %d se pone en: %d, %d fragmentacion.\n", i, Tot_proc, Tam_bloq, Tam_bloq - Tot_proc);
+                Int_frag += Tam_bloq - Tot_proc;
+                Mem += Tam_bloq;
             } else {
-                printf("P%d -> %d no asignado.\n", i, process_size);
+                printf("P%d -> %d no asignado.\n", i, Tot_proc);
             }
-        } else { // MVT
-            if (process_size <= total_memory - memory_left) {
-                printf("P%d -> %d se coloca en la memoria \n", i, process_size);
-                memory_left += process_size;
+        } else { // proceso MVT
+            if (Tot_proc <= Tot_Men - Mem) {
+                printf("P%d -> %d se coloca en la memoria \n", i, Tot_proc);
+                Mem += Tot_proc;
             } else {
-                printf("P%d -> %d no asignado.\n", i, process_size);
-                external_fragmentation += process_size;
+                printf("P%d -> %d no asignado.\n", i, Tot_proc);
+                Ext_frag += Tot_proc;
             }
         }
     }
-    
-    printf("memoria asignada: %d\n", memory_left);
-    printf("Fragmentacion interna: %d\n", internal_fragmentation);
-    printf("Fragmentacion externa: %d\n", external_fragmentation);
+    //imprimimos resultados
+    printf("memoria asignada: %d\n", Mem);
+    printf("Fragmentacion interna: %d\n", Int_frag);
+    printf("Fragmentacion externa: %d\n", Ext_frag);
     
     return 0;
 }
